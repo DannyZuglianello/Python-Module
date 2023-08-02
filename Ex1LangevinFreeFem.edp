@@ -1,0 +1,53 @@
+load "/../libmaterials/FFLibMat"
+load "iovtk"
+
+macro grad(v) [dx(v), dy(v)] //
+
+int dim = 1;
+real mu0 = 4*pi*1E-7;
+real sigma = 5E6;
+
+real h = 1e-4; // Height
+real b = 10e-4; // Length
+
+real freq = 60.;
+int nper = 1;   // Number of Periods
+int ptspp = 200; // Number of Points per Period
+real[int] a = [10];
+real[int] Ms = [1.6e6];
+real Hpeak = 600.;
+
+real dt = (1/freq)/ptspp;
+real t = -dt;
+
+real fHi;
+
+mesh omega = square(5, 50, [b*x,h*y]);
+fespace omegaP1(omega, P1);
+
+omegaP1 M, Hold, dBdH, H, w, regi;
+
+H[](:) = Hpeak;
+
+problem diffusion(H,w)
+    = int2d(omega) (grad(H)'*grad(w)+sigma/dt*dBdH*H*w)
+    - int2d(omega) (sigma/dt*dBdH*w*Hold)
+    + on(2,3,4, H = fHi)
+    ;
+
+regi[](:)=1;
+int[int] order = [1];
+
+for(int count=0;count<nper*ptspp;count+=1){
+    t+=dt;
+    fHi = Hpeak*cos(2*pi*freq*t);
+    Hold[](:) = H[](:);
+    FFmodelLangevin(flag=regi[], a=a, Ms = Ms, H = Hold[], M = M[], dMdH = dBdH[], dim = dim);
+    dBdH = mu0*(1+dBdH);
+    diffusion;
+    if((count%20) == 0){
+        savevtk("gitignore/result-"+count+".vtu", omega, H ,order=order,dataname="H-field");
+    }
+}
+
+
