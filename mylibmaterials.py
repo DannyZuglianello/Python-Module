@@ -4,7 +4,7 @@ import pathlib
 
 # Read Langevin Module
 
-lib = ctypes.cdll.LoadLibrary('./gitignore/libLangevin.so')
+lib = ctypes.cdll.LoadLibrary('./gitignore/pylibmaterials.so')
 
 lib.pyLangevin.argtypes = [
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
@@ -14,6 +14,13 @@ lib.pyLangevin.argtypes = [
     ctypes.c_int,
     ctypes.c_double,
     ctypes.c_double]
+
+lib.pyInterpolation = [
+    np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
+    np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
+    np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
+    ctypes.c_int,
+    ctypes.c_int]
     
 # prod defines the matrix product of a symmetric matrix A of size 1x1, 2x2 or 3x3 in Voigt Form and a vector.
 

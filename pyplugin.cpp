@@ -2,6 +2,7 @@
 #include "../libmaterials/AuxiliaryMath.cpp"
 #include "../libmaterials/ModelLangevin.cpp" 
 #include "../libmaterials/TensorProduct.cpp" 
+#include "../libmaterials/ModelInterpolation.cpp" 
 
 void pyLangevin(double *M, double *dMdH, double *H,int dim,int nH, double Ms, double a)
 {
@@ -26,3 +27,19 @@ void pyLangevin(double *M, double *dMdH, double *H,int dim,int nH, double Ms, do
    delete pa;
 }
 
+void pyInterpolation(double *Y,double *dYdX, double *X, int dimX,int nX)
+{
+   int* pdimX = new int;
+   *pdimX = dimX;
+   int* pnX = new int;
+   *pnX = nX;
+
+
+   ModelInterpolation model(Y, X, pdimX);
+   model.Model_Interpolation(dYdX, Y, X, pdimX, pnX);
+
+
+   delete pdimX;
+   delete pnX;
+
+}
