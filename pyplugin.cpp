@@ -27,19 +27,21 @@ void pyLangevin(double *M, double *dMdH, double *H,int dim,int nH, double Ms, do
    delete pa;
 }
 
-void pyInterpolation(double *Y,double *dYdX, double *X, int dimX,int nX)
+void pyInterpolation(double *Y,double *dYdX, double *X,double *Ydata,double *Xdata,int nXdata, int dimX,int nX)
 {
    int* pdimX = new int;
    *pdimX = dimX;
    int* pnX = new int;
    *pnX = nX;
+   int* pnXdata = new int;
+   *pnXdata = nXdata;
 
 
-   ModelInterpolation model(Y, X, pdimX);
+   ModelInterpolation model(Ydata, Xdata, pnXdata);
    model.Model_Interpolation(dYdX, Y, X, pdimX, pnX);
 
 
    delete pdimX;
    delete pnX;
-
+   delete pnXdata;
 }

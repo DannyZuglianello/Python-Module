@@ -15,10 +15,13 @@ lib.pyLangevin.argtypes = [
     ctypes.c_double,
     ctypes.c_double]
 
-lib.pyInterpolation = [
+lib.pyInterpolation.argtypes = [
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
     np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
+    np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
+    np.ctypeslib.ndpointer(dtype=np.float64, ndim=1, flags='C_CONTIGUOUS'),
+    ctypes.c_int,
     ctypes.c_int,
     ctypes.c_int]
     

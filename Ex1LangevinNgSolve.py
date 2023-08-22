@@ -9,8 +9,8 @@ pi = np.pi
 mu0 = 4*pi*1E-7
 sigma = 5E6
 
-h = 1e-4 # Height
-b = 10e-4 # Length
+h = 1e-3 # Height
+b = 10e-3 # Length
 
 freq = 60.
 nper = 1   # Number of Periods
@@ -33,7 +33,7 @@ curves = [[["line",p1,p2],"bottom"],
 
 [geo.Append(c,bc=bc) for c,bc in curves]
 
-omega = Mesh(geo.GenerateMesh(maxh=0.05*1e-4))
+omega = Mesh(geo.GenerateMesh(maxh=0.05*1e-3))
 
 # H1-conforming finite element space
 omegaP1 = H1(omega, order=1, dirichlet="right|top|left")
